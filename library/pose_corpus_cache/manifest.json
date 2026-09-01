@@ -1,0 +1,439 @@
+{
+  "version": 3,
+  "source": "real",
+  "notes": "Curated real upstream mocap (CMU) + Kimodo model output + canonical SOMA-77 reference poses.",
+  "entries": [
+    {
+      "slug": "tpose",
+      "name": "T-Pose (canonical SOMA-77)",
+      "description": "Canonical T-pose from SOMASkeleton77.to_standard_tpose \u2014 the skeleton's own reference pose.",
+      "category": "stance",
+      "fps": 0,
+      "frame_count": 1,
+      "is_motion": false,
+      "tags": [
+        "reference",
+        "tpose",
+        "canonical"
+      ],
+      "source": "SOMASkeleton77.to_standard_tpose",
+      "file": "tpose.npy"
+    },
+    {
+      "slug": "rest",
+      "name": "Rest Pose (relaxed hands)",
+      "description": "SOMA-77 bind pose with relaxed hands \u2014 the model's relaxed rest local rotations.",
+      "category": "stance",
+      "fps": 0,
+      "frame_count": 1,
+      "is_motion": false,
+      "tags": [
+        "reference",
+        "rest",
+        "bind"
+      ],
+      "source": "SOMASkeleton77 relaxed_hands_rest_pose.npy",
+      "file": "rest.npy"
+    },
+    {
+      "slug": "01_single_text_prompt",
+      "name": "Runs forward and then leaps over an obs\u2026",
+      "description": "A person runs forward and then leaps over an obstacle in front of them.",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 150,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "01_single_text_prompt.npy"
+    },
+    {
+      "slug": "02_multi_text_prompt",
+      "name": "Walking forward casually  \u00b7  Turns to t\u2026",
+      "description": "Multi-prompt: A person is walking forward casually. | A person turns to the right and starts sneakily moving forward",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 227,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "02_multi_text_prompt.npy"
+    },
+    {
+      "slug": "03_full_body_keyframes",
+      "name": "Walks forward and picks something up fr\u2026",
+      "description": "A person walks forward and picks something up from the ground",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 150,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "03_full_body_keyframes.npy"
+    },
+    {
+      "slug": "04_ee_constraint",
+      "name": "Picks up an object in front of them wit\u2026",
+      "description": "A person picks up an object in front of them with two hands and places it to the left side",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 151,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "04_ee_constraint.npy"
+    },
+    {
+      "slug": "05_root_path",
+      "name": "Casually walking forward slowly",
+      "description": "A person is casually walking forward slowly",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 300,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "05_root_path.npy"
+    },
+    {
+      "slug": "06_root_waypoints",
+      "name": "Doing a hip hop dance while moving around",
+      "description": "A person is doing a hip hop dance while moving around",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 181,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "06_root_waypoints.npy"
+    },
+    {
+      "slug": "07_mixed_constraints",
+      "name": "Walking backward points to the right si\u2026",
+      "description": "A person walking backward points to the right side with their right hand",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 152,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "07_mixed_constraints.npy"
+    },
+    {
+      "slug": "08_stylized_text",
+      "name": "A zombie with their left arm extended f\u2026",
+      "description": "A zombie with their left arm extended forward walks with an uneven gait at a slow pace.",
+      "category": "motion",
+      "fps": 30,
+      "frame_count": 121,
+      "is_motion": true,
+      "tags": [
+        "kimodo",
+        "model-output",
+        "soma-77"
+      ],
+      "source": "vendor/kimodo/.../kimodo-soma-rp (real model generation)",
+      "file": "08_stylized_text.npy"
+    },
+    {
+      "slug": "cmu_02_01",
+      "name": "Walk",
+      "description": "CMU subject 02, trial 01 \u2014 walk",
+      "category": "locomotion",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 2, trial 1",
+      "file": "cmu_02_01.npy"
+    },
+    {
+      "slug": "cmu_02_03",
+      "name": "Run / Jog",
+      "description": "CMU subject 02, trial 03 \u2014 run/jog",
+      "category": "locomotion",
+      "fps": 30,
+      "frame_count": 174,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 2, trial 3",
+      "file": "cmu_02_03.npy"
+    },
+    {
+      "slug": "cmu_02_04",
+      "name": "Jump & Balance",
+      "description": "CMU subject 02, trial 04 \u2014 jump, balance",
+      "category": "locomotion",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 2, trial 4",
+      "file": "cmu_02_04.npy"
+    },
+    {
+      "slug": "cmu_02_05",
+      "name": "Punch / Strike",
+      "description": "CMU subject 02, trial 05 \u2014 punch/strike",
+      "category": "combat",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 2, trial 5",
+      "file": "cmu_02_05.npy"
+    },
+    {
+      "slug": "cmu_02_07",
+      "name": "Swordplay",
+      "description": "CMU subject 02, trial 07 \u2014 swordplay",
+      "category": "combat",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 2, trial 7",
+      "file": "cmu_02_07.npy"
+    },
+    {
+      "slug": "cmu_05_02",
+      "name": "Dance \u2014 Pirouette",
+      "description": "CMU subject 05, trial 02 \u2014 dance, expressive arms, pirouette",
+      "category": "dance",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 5, trial 2",
+      "file": "cmu_05_02.npy"
+    },
+    {
+      "slug": "cmu_05_06",
+      "name": "Dance \u2014 Cartwheel & Jete",
+      "description": "CMU subject 05, trial 06 \u2014 cartwheel-like start, pirouettes, jete",
+      "category": "dance",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 5, trial 6",
+      "file": "cmu_05_06.npy"
+    },
+    {
+      "slug": "cmu_06_02",
+      "name": "Basketball Dribble",
+      "description": "CMU subject 06, trial 02 \u2014 basketball, forward dribble",
+      "category": "sport",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 6, trial 2",
+      "file": "cmu_06_02.npy"
+    },
+    {
+      "slug": "cmu_13_04",
+      "name": "Sitting (chin in hand)",
+      "description": "CMU subject 13, trial 04 \u2014 sit on stepstool, chin in hand",
+      "category": "daily",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 13, trial 4",
+      "file": "cmu_13_04.npy"
+    },
+    {
+      "slug": "cmu_13_11",
+      "name": "Forward Jump",
+      "description": "CMU subject 13, trial 11 \u2014 forward jump",
+      "category": "locomotion",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 13, trial 11",
+      "file": "cmu_13_11.npy"
+    },
+    {
+      "slug": "cmu_13_17",
+      "name": "Boxing",
+      "description": "CMU subject 13, trial 17 \u2014 boxing",
+      "category": "combat",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 13, trial 17",
+      "file": "cmu_13_17.npy"
+    },
+    {
+      "slug": "cmu_13_26",
+      "name": "Wave / Direct Traffic",
+      "description": "CMU subject 13, trial 26 \u2014 direct traffic, wave",
+      "category": "gesture",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 13, trial 26",
+      "file": "cmu_13_26.npy"
+    },
+    {
+      "slug": "cmu_13_29",
+      "name": "Jumping Jacks & Squats",
+      "description": "CMU subject 13, trial 29 \u2014 jumping jacks, side twists, bend over, squats",
+      "category": "exercise",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 13, trial 29",
+      "file": "cmu_13_29.npy"
+    },
+    {
+      "slug": "cmu_16_01",
+      "name": "Loose Walk",
+      "description": "CMU subject 16, trial 01 \u2014 walk",
+      "category": "locomotion",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 16, trial 1",
+      "file": "cmu_16_01.npy"
+    },
+    {
+      "slug": "cmu_49_06",
+      "name": "Cartwheel",
+      "description": "CMU subject 49, trial 06 \u2014 cartwheel",
+      "category": "acrobatic",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 49, trial 6",
+      "file": "cmu_49_06.npy"
+    },
+    {
+      "slug": "cmu_74_03",
+      "name": "Kick",
+      "description": "CMU subject 74, trial 03 \u2014 kick",
+      "category": "combat",
+      "fps": 30,
+      "frame_count": 240,
+      "is_motion": true,
+      "tags": [
+        "cmu",
+        "mocap",
+        "soma-77",
+        "upstream"
+      ],
+      "source": "CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu) \u2014 subject 74, trial 3",
+      "file": "cmu_74_03.npy"
+    }
+  ]
+}
