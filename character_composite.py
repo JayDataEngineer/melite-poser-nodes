@@ -783,12 +783,16 @@ def composite_character(
 
     Sequential: body → +hair → +outfit. Each step returns a fresh GLB.
     Hard-fails on any error — no partial output, no silent crash.
+
+    (2026-09-05) BODY-ONLY is legal: the anny card's descope made the
+    body alone the card (hair/outfit move to a future trellis-clothing
+    card). With no parts, the body is still PARSE-VALIDATED (a
+    malformed GLB refuses loudly) and passed through — a composite of
+    one, never a blind copy.
     """
     if not hair_bytes and not outfit_bytes:
-        raise RuntimeError(
-            "composite_character: neither hair nor outfit provided — "
-            "body alone is not a composite character."
-        )
+        _parse_glb(body_bytes)          # validation only — loud if malformed
+        return body_bytes
     result = body_bytes
     if hair_bytes:
         result = merge_hair(result, hair_bytes)

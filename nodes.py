@@ -388,10 +388,11 @@ class CompositeCharacter:
             log.info("[CompositeCharacter] outfit=%s (%d bytes)", op, len(outfit_bytes))
 
         if not hair_bytes and not outfit_bytes:
-            raise RuntimeError(
-                "CompositeCharacter: neither hair nor outfit provided — nothing to "
-                "composite. The body alone is not a composite character."
-            )
+            # (2026-09-05 descope) body-only is legal — the anny card
+            # runs the body alone; composite_character validates it and
+            # passes through (a composite of one).
+            log.info("[CompositeCharacter] body-only passthrough "
+                     "(descope 2026-09-05)")
 
         t0 = time.perf_counter()
         out_bytes = _composite_bytes(body_bytes, hair_bytes, outfit_bytes)
