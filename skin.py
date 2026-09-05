@@ -351,10 +351,21 @@ class SkinEngine:
         # enable_procedural_transforms=False — the procedural JSON isn't
         # shipped in this env. LBS still works; we only lose pose-dependent
         # corrective blends (an elbow-smoothing nicety).
+        #
+        # data_root: the local HF snapshot (SOMA_neutral.npz + Anny/ +
+        # MHR/ ...) — REQUIRED, not an optimization. py-soma-x 0.3.0's
+        # no-data_root branch lazy-imports ``soma.body.assets``, a
+        # module the 0.3.0 wheel/tag simply does not ship (upstream
+        # packaging bug — the real module is soma/assets.py, one level
+        # up); passing the already-downloaded snapshot dodges the
+        # broken branch entirely and pins the assets to the cache.
+        data_root = self._find_soma_npz().parent
+        log.info("SkinEngine: data_root=%s", data_root)
         self._model = SOMALayer(
             identity_model_type=self.identity_model,
             device=self.device,
             enable_procedural_transforms=False,
+            data_root=data_root,
         )
         # Bind-pose vertices: py-soma-x exposes this as `bind_shape`
         # (18056, 3), NOT `bind_vertices`. `shape_mean` is the same data

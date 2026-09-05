@@ -1,0 +1,16 @@
+# melite-poser-nodes runtime requirements (the operator is right —
+# 2026-09-06: "BRO WE LITERALLY CONTROL THE COMFYUI... HOW IS THERE
+# NOT THE CUSTOM EXTENSIONS WE MADE HAVE THIS IN REQUIREMENTS!").
+#
+# The pack's ADDITIVE deps — everything comfyui's own runtime already
+# provides (torch, numpy, aiohttp, trimesh) stays OUT; listing those
+# here would fight the managed env's pinned stack.
+#
+# py-soma-x[anny]: the SkinEngine's parametric identity layer —
+# /poser/skin/mesh?identity_model=anny|mhr builds SOMALayer from it
+# and the Shape band's live native-anny preview dies without it
+# ("py-soma-x is required for anny meshes"). NOTE the 0.3.0 wheel
+# packaging bug: soma/body/soma.py lazy-imports soma.body.assets
+# (never shipped); skin.py passes data_root (the local HF snapshot)
+# to dodge the broken branch — see skin.py _load_soma_x.
+py-soma-x[anny]
