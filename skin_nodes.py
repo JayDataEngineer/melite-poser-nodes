@@ -45,7 +45,7 @@ class SkinPack:
         if int(size) not in (256, 512, 1024, 2048):
             raise RuntimeError("SkinPack refused: size %r not in [256, 512, 1024, 2048]" % (size,))
         if int(seed) < 0:
-            raise RuntimeError("SkinPack refused: seed %r is negative" % (seed,))
+            raise RuntimeError("SkinPack refused: seed %r is negative — the -1 RANDOM sentinel is minted compose-side (SkinParams admits it, the skin compose mints it); a raw -1 here means the flow bypassed compose" % (seed,))
         albedo, normal = _generate(int(size), int(seed))
         to_t = lambda a: torch.from_numpy(a.astype("float32") / 255.0).unsqueeze(0)
         log.info("[SkinPack] size=%d seed=%d", int(size), int(seed))

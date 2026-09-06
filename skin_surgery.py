@@ -60,6 +60,8 @@ def _fbm(size: int, base_cells: int, octaves: int, rng, persistence: float = 0.5
 
 
 def generate_detail_maps(size: int, seed: int) -> tuple:
+    if int(seed) < 0:
+        raise ValueError("seed %r is negative — the -1 RANDOM sentinel is minted compose-side (the skin card re-parses phase 2); a raw -1 here would mint inside deterministic bytes" % (seed,))
     if size not in (256, 512, 1024, 2048):
         raise ValueError("size %r not in [256, 512, 1024, 2048]" % (size,))
     rng = np.random.default_rng(seed)
