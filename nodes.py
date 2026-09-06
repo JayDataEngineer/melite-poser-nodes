@@ -28,6 +28,8 @@ from functools import lru_cache as _lru_cache
 from .mesh_cleanup import fix_winding as _fix_winding_bytes
 from .mesh_cleanup import dedup as _dedup_bytes
 from .character_composite import composite_character as _composite_bytes
+from .fit_nodes import FitProp, FitRow
+from .skin_nodes import SkinApply, SkinPack, SkinSidecar
 # Shared bounding-sphere helper (suggestion #2, 2026-07-31). PoserRender
 # (depth, in rasterize.py) and PoserRenderOpenPose (skeleton, below) both
 # call this so their renders stay pixel-aligned by construction.
@@ -2151,6 +2153,11 @@ NODE_CLASS_MAPPINGS = {
     "RayRenderGLBViews": RayRenderGLBViews,
     "RayCreatureRigBridge": RayCreatureRigBridge,
     "RaySwapBaseColorTexture": RaySwapBaseColorTexture,
+    "FitProp": FitProp,
+    "FitRow": FitRow,
+    "SkinPack": SkinPack,
+    "SkinApply": SkinApply,
+    "SkinSidecar": SkinSidecar,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -2171,4 +2178,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "RayRenderGLBViews": "🎬 Render GLB Views (Blender EEVEE_NEXT ×8 angles)",
     "RayCreatureRigBridge": "🦾 Creature Rig Bridge (TRELLIS mesh -> anyCreature anims)",
     "RaySwapBaseColorTexture": "🎨 Swap BaseColor Texture (projected→rigged, preserve rig)",
+    "FitProp": "Fit Prop (seat a static prop onto a SOMAX body)",
+    "FitRow": "Fit Row (assemble the meld attachment row from knobs)",
+    "SkinPack": "Skin Pack (deterministic detail maps, CPU)",
+    "SkinApply": "Skin Apply (attach detail maps to a SOMAX body)",
+    "SkinSidecar": "Skin Sidecar (controller sidecar from kind knobs)",
 }
