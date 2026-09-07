@@ -8,6 +8,12 @@ parity wall pins generate_detail_maps byte-identical).
 Kinds/tints live estate-side (py/skin_spec.py KIND_TABLE) — the sidecar
 rides INTO SkinApply as a string the card compose assembles. This module
 never names a kind: maps are pure (size, seed).
+
+Meld skin law (meld docs/wiki/4.38 §Skin v1 process record, ported
+2026-09-07): the graft carries the normal map but mutes it (scale 0 —
+v1.4 bump OFF: UV-path bump through projection-UV tangents mottled the
+skin) and ships matte roughness (1 - meld smoothness 0.18). The albedo
+is the shared tiling detail; triplanar sampling lives Unity-side.
 """
 
 from __future__ import annotations
@@ -134,12 +140,22 @@ def apply_skin_bytes(body: bytes, albedo_png: bytes, normal_png: bytes) -> tuple
     for m in mats:
         pbr = m.setdefault("pbrMetallicRoughness", {})
         pbr["baseColorTexture"] = {"index": alb_tex, "texCoord": 0}
-        m["normalTexture"] = {"index": nrm_tex, "texCoord": 0, "scale": 1.0}
-        pbr.setdefault("metallicFactor", 0.0)
-        pbr.setdefault("roughnessFactor", 0.65)
+        # Meld skin v1.4 law: bump OFF. The normal map rides along for
+        # harvest/v2 but scale 0 mutes it — UV-path bump through the
+        # projection-UV tangents is the documented mottle ("skin on the
+        # actual character is fucked", meld 4.38). Do NOT raise this
+        # without a native-unwrap body.
+        m["normalTexture"] = {"index": nrm_tex, "texCoord": 0, "scale": 0.0}
+        # Hard-set (not setdefault): the skin law wins over authored
+        # placeholder factors (e.g. template_blue roughness 0.85) —
+        # the Unity controller likewise overwrites via SetFloat.
+        pbr["metallicFactor"] = 0.0
+        # Matte skin: meld de-sheen smoothness 0.18 -> roughness 0.82.
+        pbr["roughnessFactor"] = 0.82
         touched += 1
     out = _build_glb(gltf, bytes(data))
-    record = {"maps": {"albedo": [len(albedo_png)], "normal": [len(normal_png)]}, "materials_touched": touched, "primitives": len(prims), "sampler": "repeat"}
+    record = {"maps": {"albedo": [len(albedo_png)], "normal": [len(normal_png)]}, "materials_touched": touched, "primitives": len(prims), "sampler": "repeat",
+              "normal_scale": 0.0, "roughness": 0.82, "skin_law": "meld-4.38-v1.4-bump-off"}
     return out, record
 
 
@@ -148,6 +164,9 @@ def apply_skin_bytes(body: bytes, albedo_png: bytes, normal_png: bytes) -> tuple
 # SkinSidecar assembles the controller sidecar in-pack (the FitRow
 # precedent: knob initials -> contract JSON at run time); the parity
 # wall pins every row equal. kind -> (tint, texture, category).
+# Shader-law keys (normal_strength / smoothness / metallic /
+# triplanar_density) twin skin_spec.py exactly — meld 4.38 v1.3-v1.4
+# (bump OFF, matte, triplanar detail).
 KIND_TINTS = {
     'keeper': ((0.85, 0.7, 0.55), 'young_caucasian_male', 'humanoid'),
     'ash_nomad': ((0.65, 0.5, 0.4), 'middleage_caucasian_male', 'humanoid'),
@@ -188,4 +207,10 @@ def build_sidecar(kind, size, seed):
         'uv': 'somax',
         'size': size,
         'seed': seed,
+        # Meld 4.38 v1.3-v1.4 shader law (twin of skin_spec.py —
+        # NORMAL_STRENGTH / SMOOTHNESS / METALLIC / TRIPLANAR_DENSITY).
+        'normal_strength': 0.0,
+        'smoothness': 0.18,
+        'metallic': 0.0,
+        'triplanar_density': 3.0,
     }, sort_keys=True)
