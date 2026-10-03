@@ -1373,12 +1373,28 @@ def _load_glb_skinning(glb_path: str) -> dict:
         nm = nodes[ni].get("name", "")
         joint_names.append(nm.replace("mixamorig:", ""))
 
-    # Reverse lookup: Mixamo short-name → SOMA-77 index
+    # Reverse lookup: Mixamo short-name → SOMA-77 index. The table
+    # lives in the SIBLING pack melite-autorig-nodes (its
+    # soma_weight_transfer.py) — resolved through the runtime's
+    # custom_nodes roots, never a hardcoded host path (the audit's
+    # blocker: /root/... resolved on no install anywhere).
     try:
         from soma_weight_transfer import SOMA_IDX_TO_MIXAMO_NAME
     except ImportError:
         import sys
-        sys.path.insert(0, "/root/ComfyUI/custom_nodes/melite-autorig-nodes")
+        from pathlib import Path
+        import folder_paths
+        for root in folder_paths.get_folder_paths("custom_nodes"):
+            candidate = Path(root) / "melite-autorig-nodes"
+            if (candidate / "soma_weight_transfer.py").is_file():
+                sys.path.insert(0, str(candidate))
+                break
+        else:
+            raise RuntimeError(
+                "soma_weight_transfer not found: install the "
+                "melite-autorig-nodes pack (it owns the SOMA joint table "
+                "the skinning reverse-lookup needs)"
+            )
         from soma_weight_transfer import SOMA_IDX_TO_MIXAMO_NAME
     mixamo_to_soma = {v: k for k, v in SOMA_IDX_TO_MIXAMO_NAME.items()}
 

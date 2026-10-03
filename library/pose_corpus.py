@@ -147,7 +147,6 @@ def corpus_summary() -> List[dict]:
 # ── Full upstream CMU catalog (browseable metadata + on-demand fetch) ──────
 
 _CMU_CATALOG = _CACHE_DIR.parent / "cmu_catalog.json"
-_CMU_INDEX = _CACHE_DIR.parent / "cmu_mocap_index.txt"
 _RAW_BASE = "https://github.com/Shriinivas/cmubvh/raw/main"
 TARGET_HIP_Y = 1.0
 TARGET_HIP_TO_HEAD = 0.60

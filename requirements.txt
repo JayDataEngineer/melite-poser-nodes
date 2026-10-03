@@ -3,8 +3,11 @@
 # NOT THE CUSTOM EXTENSIONS WE MADE HAVE THIS IN REQUIREMENTS!").
 #
 # The pack's ADDITIVE deps — everything comfyui's own runtime already
-# provides (torch, numpy, aiohttp, trimesh) stays OUT; listing those
-# here would fight the managed env's pinned stack.
+# provides (torch, numpy, aiohttp) stays OUT; listing those here
+# would fight the managed env's pinned stack. trimesh is NOT one of
+# them (audited 2026-10-13: zero hits in comfyui's requirements.txt)
+# — texture_project.py imports it at module level, so it is declared
+# below.
 #
 # py-soma-x[anny]: the SkinEngine's parametric identity layer —
 # /poser/skin/mesh?identity_model=anny|mhr builds SOMALayer from it
@@ -14,3 +17,4 @@
 # (never shipped); skin.py passes data_root (the local HF snapshot)
 # to dodge the broken branch — see skin.py _load_soma_x.
 py-soma-x[anny]
+trimesh
