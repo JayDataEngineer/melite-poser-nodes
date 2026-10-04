@@ -16,5 +16,11 @@
 # packaging bug: soma/body/soma.py lazy-imports soma.body.assets
 # (never shipped); skin.py passes data_root (the local HF snapshot)
 # to dodge the broken branch — see skin.py _load_soma_x.
+#
+# xatlas (2026-10-15): uv_cleanup.py's run_xatlas_unwrap lazy-imports
+# it — RayXatlasUnwrap and the /poser/trellis/xatlas_unwrap door die
+# at node time without it. Found the hard way: a --frozen uv sync
+# pruned the wheel (nothing declared it) and the unwrap arm broke.
 py-soma-x[anny]
 trimesh
+xatlas
