@@ -250,6 +250,18 @@ def bake_motion(
     # locals) passes every downstream render gate that doesn't measure
     # limb ratios — this comparison is numeric and cannot be fooled.
     # Hard-fail above 15cm max joint error.
+    #
+    # THE SCALE MATCH (2026-10-09, run-9641b18af83e): the truth is in
+    # SOMA-template space (~170 cm adult) while the FK is in the ASSET's
+    # mesh space (the docstring's own ~100 cm child case) — comparing
+    # them raw fires on every proportion difference (the commission's
+    # 0.87 m Kimodo asset died at 50 cm with a mathematically perfect
+    # conversion). The truth is uniform-scaled into asset space first:
+    # one factor from the bind-pose reach (identity-rotation FK, root-
+    # relative max radius) over the template's frame-0 reach, clamped to
+    # a sane band so a genuinely wrong rig (wrong skeleton, unit mess)
+    # still trips the gate. Real conversion bugs survive the scaling —
+    # globals-as-locals twists break directions, not just lengths.
     _children_of = {}
     for _i, _n in enumerate(jb["nodes"]):
         for _c in _n.get("children", []):
@@ -258,6 +270,30 @@ def bake_motion(
     _parent = [_jspace.get(_children_of.get(ji)) for ji in joint_nodes]
     _bind_t = [np.asarray(jb["nodes"][ji].get("translation", [0, 0, 0]),
                           dtype=np.float64) for ji in joint_nodes]
+
+    # The scale factor: bind-pose reach (identity-rotation FK — the
+    # asset's skeleton extent in GLOBAL mesh space, root-relative max
+    # joint position) over the template's frame-0 reach (posed_joints'
+    # own global extent). Both sides are global positions: a max
+    # single-bone metric here would compare a femur against a wingspan.
+    def _bind_world(k):
+        p = _parent[k]
+        return _bind_t[k] if p is None else _bind_world(p) + _bind_t[k]
+
+    _bind_pts = np.array([_bind_world(k) for k in range(J)])
+    _bind_pts -= _bind_pts[0]
+    _t0 = posed_joints[0].astype(np.float64)
+    _t0 = _t0 - _t0[0]
+    _template_reach = float(np.abs(_t0).max())
+    _asset_reach = float(np.abs(_bind_pts).max())
+    _scale = _asset_reach / _template_reach if _template_reach > 1e-9 else 1.0
+    if not (0.2 <= _scale <= 5.0):
+        raise ValueError(
+            f"FK GATE FAILED: the asset skeleton's reach ({_asset_reach:.3f}m) "
+            f"is {int(_scale*100)}% of the motion template's — the rig is not "
+            f"the SOMA-77 template this NPZ was posed against (wrong GLB or "
+            f"unit mess), refusing to bake."
+        )
 
     def _fk_err(t):
         world = {}
@@ -274,16 +310,17 @@ def bake_motion(
         pts = np.array([W(k)[:3, 3] for k in range(J)])
         pts -= pts[0]
         truth = posed_joints[t].astype(np.float64)
-        truth = truth - truth[0]
+        truth = (truth - truth[0]) * _scale
         return float(np.abs(pts - truth).max())
 
     _fk_max = max(_fk_err(t) for t in {0, T // 4, T // 2, T - 1})
     if _fk_max > 0.15:
         raise ValueError(
             f"FK GATE FAILED: packed rotations deviate {int(_fk_max*100)}cm "
-            f"from posed_joints ground truth (limit 15cm). The conversion "
-            f"math is wrong (stale module? wrong locals?) — refusing to "
-            f"ship garbage bytes."
+            f"from posed_joints ground truth scaled into asset space "
+            f"(factor {_scale:.3f}, limit 15cm). The conversion math is "
+            f"wrong (stale module? wrong locals?) — refusing to ship "
+            f"garbage bytes."
         )
 
     # ── Pack animation binary (joint-major for byteOffset slicing) ──────
