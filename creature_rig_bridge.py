@@ -31,7 +31,11 @@ import logging
 
 log = logging.getLogger(__name__)
 
-BLENDER_BIN = os.environ.get("BLENDER_BIN", "blender")
+# The ONE Blender resolver (same pack, same law as blender_render —
+# features/008 M13): resolved at NODE time through the shared
+# function, never a module constant that dies at pack import or a
+# silent "blender" default that dies at spawn.
+from .blender_render import _resolve_blender_bin
 
 _BRIDGE_SCRIPT = r'''
 import bpy, sys, json, math, os
@@ -287,7 +291,7 @@ def bridge_creature(
         with open(script_path, "w") as f:
             f.write(_BRIDGE_SCRIPT)
         cmd = [
-            BLENDER_BIN, "--background",
+            _resolve_blender_bin(), "--background",
             "--python", script_path,
             "--", json.dumps(cfg),
         ]

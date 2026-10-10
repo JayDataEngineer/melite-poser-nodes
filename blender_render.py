@@ -27,9 +27,14 @@ import logging
 log = logging.getLogger(__name__)
 
 def _resolve_blender_bin() -> str:
-    """BLENDER_BIN env → PATH → the ray repo's portable Blender (host-clone
-    topology: the workstation has no system blender and no /usr/local write
-    access; the workspace-tools copy is the documented fallback)."""
+    """BLENDER_BIN env → PATH → the ray repo's portable Blender
+    (host-clone topology: the workstation has no system blender and
+    no /usr/local write access; the workspace-tools copy is the
+    documented fallback) → LOUD FileNotFoundError. The ONE law,
+    shared verbatim with melite-autorig-nodes/nodes.py
+    (features/008 M13, cured 2026-10-21): the old silent
+    fall-through returned a bare "blender" that died at subprocess
+    spawn with a worse error than this refusal."""
     env = os.environ.get("BLENDER_BIN")
     if env and os.path.isfile(env):
         return env
@@ -38,15 +43,15 @@ def _resolve_blender_bin() -> str:
     if on_path:
         return on_path
     from pathlib import Path
-    for cand in (
-        Path.home() / "Documents/programs/ray/scratch/blender/blender-4.2.5-linux-x64/blender",
-    ):
-        if cand.is_file():
-            return str(cand)
-    return "blender"
+    portable = Path.home() / "Documents/programs/ray/scratch/blender/blender-4.2.5-linux-x64/blender"
+    if portable.is_file():
+        return str(portable)
+    raise FileNotFoundError(
+        "Blender binary not found. Set BLENDER_BIN, put 'blender' on "
+        "PATH, or provide the portable copy at "
+        f"{portable}"
+    )
 
-
-BLENDER_BIN = _resolve_blender_bin()
 
 # ── The Blender-side script (run via --python) ─────────────────────────────
 
@@ -387,7 +392,7 @@ def render_glb(
             json.dump(config, f)
 
         cmd = [
-            BLENDER_BIN, "--background", "--python-expr", _RENDER_SCRIPT, "--",
+            _resolve_blender_bin(), "--background", "--python-expr", _RENDER_SCRIPT, "--",
             glb_path, tmpdir, json.dumps(config),
         ]
         rw = width if width is not None else resolution
