@@ -24,3 +24,9 @@
 py-soma-x[anny]
 trimesh
 xatlas
+# melite-model-base — the pipeline spine sam_segment.py's
+# register_pipeline door imports (pip-first; the _vendor/ fallback
+# copy inside this pack covers an un-provisioned dev box). Declared
+# so a cold Manager install resolves it with ZERO repo-layout
+# crutches (audit 019 C6, the cold-clone pack law).
+melite-model-base @ git+https://github.com/JayDataEngineer/melite-model-base.git@b18214cd772c10d248636f0a4a73eeb7cb53b231
