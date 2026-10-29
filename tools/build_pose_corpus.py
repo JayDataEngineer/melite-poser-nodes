@@ -18,22 +18,21 @@ the cache is real model output / canonical skeleton data — nothing hand-synthe
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 import numpy as np
+import torch
+from kimodo.assets import SKELETONS_ROOT
+from kimodo.skeleton import SOMASkeleton30, SOMASkeleton77
 
-REPO = Path(__file__).resolve().parents[3]
 PACK = Path(__file__).resolve().parents[1]
-KIMODO = REPO / "vendor" / "kimodo"
-if str(KIMODO) not in sys.path:
-    sys.path.insert(0, str(KIMODO))
+# kimodo comes from the pip leg (the requirements.txt door, audit 019
+# C6) — the repo-layout sys.path walk to a vendored vendor/kimodo tree
+# is dead (the tree left the repo with the retired full image); the
+# installed package carries its own assets.
+KIMODO_PKG = Path(__import__("kimodo").__file__).resolve().parent
 
-import torch  # noqa: E402
-from kimodo.assets import SKELETONS_ROOT  # noqa: E402
-from kimodo.skeleton import SOMASkeleton30, SOMASkeleton77  # noqa: E402
-
-DEMO_ROOT = KIMODO / "kimodo" / "assets" / "demo" / "examples" / "kimodo-soma-rp"
+DEMO_ROOT = KIMODO_PKG / "assets" / "demo" / "examples" / "kimodo-soma-rp"
 OUT = PACK / "library" / "pose_corpus_cache"
 OUT.mkdir(parents=True, exist_ok=True)
 
